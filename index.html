@@ -34,6 +34,20 @@
 			font-weight: normal;
 		}
 		
+		.counter.escaped {
+			top: 4em;
+		}
+		
+		.counter.escaped:before {
+			content: "Hooray, ";
+			font-weight: normal;
+		}
+		
+		.counter.escaped:after {
+			content: " rabbit(s) escaped from you!";
+			font-weight: normal;
+		}		
+		
 		.running-rabbit {
 			width: 50px;
 			height: 32px;
@@ -70,10 +84,10 @@
 			-ms-transform: translate(-2600px, 0);
 			transform: translate(-2600px, 0);
 			
-			-webkit-transition: 20s linear;
-			-moz-transition: 20s linear;
-			-o-transition: 20s linear;
-			transition: 20s linear;	
+			-webkit-transition: 15s linear;
+			-moz-transition: 15s linear;
+			-o-transition: 15s linear;
+			transition: 15s linear;	
 		}
 
 		@keyframes rabbit-animation {
@@ -106,11 +120,21 @@
 	<script type="text/javascript">
 		
 		(function() {
-			$(document).ready(function() {			
-				function updateCounter() {
-					var $e = $('.counter');
+			$(document).ready(function() {
+				var escaped = 0, blowed = 0;
+		
+				function updateBlowedUpCounter() {
+					var $e = $('.counter.blowedup');
 					$e.show();
-					$e.text(parseInt($e.text()) + 1);
+					blowed += 1;
+					$e.text(blowed);
+				};
+				
+				function updateEscapedCounter() {
+					var $e = $('.counter.escaped');
+					$e.show();
+					escaped += 1;
+					$e.text(escaped);
 				};
 			
 				function rabbit() {
@@ -123,13 +147,14 @@
 						$e.css('left', l + 'px');
 						
 						function blowUp() {
+							clearTimeout(dT);
 							var p = $e.position();
 							$e.removeClass('run');
 							$e.css(p);
 							$e.css('width', '32px');
-							$e.addClass('boom');
-							
-							updateCounter();
+							$e.addClass('boom');							
+
+							updateBlowedUpCounter();
 							
 							setTimeout(function() {
 								$e.remove();
@@ -143,9 +168,10 @@
 						$e.addClass('run');
 					}, 1000);
 						
-					setTimeout(function() {
+					var dT = setTimeout(function() {
 						$e.remove();
-					}, 25000);
+						updateEscapedCounter();
+					}, 16000);
 				};
 				
 				setInterval(function() {
@@ -163,7 +189,8 @@
   </head>
 
   <body>
-	<div class="counter">0</div>
+	<div class="counter blowedup"></div>
+	<div class="counter escaped"></div>
 
 
     
