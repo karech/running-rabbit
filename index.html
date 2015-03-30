@@ -122,7 +122,7 @@
 						$e.css('top', Math.floor(t) + 'px');
 						$e.css('left', l + 'px');
 						
-						$e.mouseenter(function() {
+						function blowUp() {
 							var p = $e.position();
 							$e.removeClass('run');
 							$e.css(p);
@@ -134,7 +134,10 @@
 							setTimeout(function() {
 								$e.remove();
 							}, 550);
-						});
+						};
+						
+						$e.mouseenter(blowUp);
+						$e.click(blowUp);
 				
 					setTimeout(function() {
 						$e.addClass('run');
